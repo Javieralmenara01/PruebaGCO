@@ -77,7 +77,12 @@ El código del sistema se divide en varios archivos para facilitar su mantenimie
 - **predictionFunctions.cc/h**: Implementa los métodos de predicción de valoraciones.
 - **similarityFunctions.cc/h**: Contiene los métodos de cálculo de similitud, como Pearson, coseno y euclidiana.
 - **Data.cc/h**: Clase encargada de almacenar y gestionar las valoraciones de los usuarios.
-- **Prediction*.h y Similarity*.h**: Archivos de cabecera que definen las interfaces para métodos específicos de predicción y similitud.
+- **Prediction.h y Similarity.h**: Archivos de cabecera que definen las interfaces para métodos específicos de predicción y similitud.
+- **PredictionSimple.h**: Implementación concreta de un método de predicción simple.
+- **PredictionMedia.h**: Implementación concreta de un método de predicción basado en la media.
+- **SimilarityPearson.h**: Implementación concreta del cálculo de similitud de Pearson.
+- **SimilarityCoseno.h**: Implementación concreta del cálculo de similitud de coseno.
+- **SimilarityEuclidiana.h**: Implementación concreta del cálculo de similitud euclidiana.
 
 Cada archivo está organizado para facilitar la modificación y extensión de los métodos de recomendación y predicción.
 
