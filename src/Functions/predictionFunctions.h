@@ -18,8 +18,8 @@
   * Funciones para predecir la valoración de un usuario para un ítem
   */
 namespace PredictionFunctions {
-  double prediccionSimple(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos);
-  double prediccionMedia(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos);
+  double prediccionSimple(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos, std::stringstream& output);
+  double prediccionMedia(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos, std::stringstream& output);
 }
 
 #endif

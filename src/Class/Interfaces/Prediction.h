@@ -12,6 +12,7 @@
 
 #include "../Data.h"
 #include <vector>
+#include <sstream>
 
 /**
   * Clase Abstracta Prediction
@@ -27,7 +28,7 @@ class Prediction {
     * @param vecinos Vecinos más cercanos
     * @return Valoración predicha
     */
-  virtual double predict(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos) const = 0;
+  virtual double predict(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos, std::stringstream& output) const = 0;
 };
 
 #endif

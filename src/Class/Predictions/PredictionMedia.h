@@ -27,7 +27,7 @@ class PredictionMedia : public Prediction {
     * @param vecinos Vecinos más cercanos
     * @return Valoración predicha
     */
-  double predict(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos) const override { return PredictionFunctions::prediccionMedia(datos, usuario, item, vecinos); }
+  double predict(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos, std::stringstream& output) const override { return PredictionFunctions::prediccionMedia(datos, usuario, item, vecinos, output); }
 };
 
 #endif

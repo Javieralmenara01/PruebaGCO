@@ -67,8 +67,10 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  std::stringstream sim_usuarios_vecinos ("");
-  sim_usuarios_vecinos << "Similitud entre usuarios y vecinos:\n";
+  std::stringstream sim_usuarios_vecinos (""), calculo_predicciones ("");
+  sim_usuarios_vecinos << "# Similitud entre usuarios y vecinos:\n";
+  calculo_predicciones << "# Calculo para las predicciones de las valoraciones:\n";
+
   for (int usuario : usuarios_sin_valoraciones) {
     std::vector<std::pair<int, double>> similitudes = AuxFunctions::calcularSimilitudes(datos, usuario, *similitud);
     for (int item = 0; item < (int)datos.getUser(usuario).size(); ++item) {
@@ -82,7 +84,7 @@ int main(int argc, char* argv[]) {
         }
         sim_usuarios_vecinos << " ]\n";
 
-        double valoracion = prediccion->predict(datos, usuario, item, vecinos);
+        double valoracion = prediccion->predict(datos, usuario, item, vecinos, calculo_predicciones);
         if (valoracion < datos.getMinVal()) {
           valoracion = datos.getMinVal();
         } else if (valoracion > datos.getMaxVal()) {
@@ -106,6 +108,8 @@ int main(int argc, char* argv[]) {
     }
     archivo << std::endl;
   }
+
+  archivo << std::endl << calculo_predicciones.str() << std::endl;
 
   // Fin del cronómetro
   auto end = std::chrono::high_resolution_clock::now();

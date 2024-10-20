@@ -20,13 +20,17 @@
  * @param metodo_prediccion Método de predicción
  * @return Valoración predicha
  */
-double PredictionFunctions::prediccionSimple(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos) {
+double PredictionFunctions::prediccionSimple(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos, std::stringstream& output) {
   double numerador = 0.0;
   double denominador = 0.0;
+
+  output << "Predicción para el usuario " << usuario << " e ítem " << item << ":\n";
 
   for (const auto& vecino : vecinos) {
     int usuario_vecino = vecino.first;
     double similitud = vecino.second;
+    
+    output << "Vecino: " << usuario_vecino << " - Similitud: " << similitud << "\n";
 
     if (datos.getValoration(usuario_vecino,item) != datos.getMinVal() - 1.0) { // Ignorar puntuaciones no conocidas (min_val - 1.0)
       numerador += similitud * datos.getValoration(usuario_vecino,item);
@@ -35,6 +39,8 @@ double PredictionFunctions::prediccionSimple(const Data& datos, int usuario, int
   }
 
   if (denominador == 0.0) return 0.0;
+
+  output << "Predicción Final: " << numerador / denominador << "\n\n";
 
   return numerador / denominador;
 }
@@ -47,10 +53,12 @@ double PredictionFunctions::prediccionSimple(const Data& datos, int usuario, int
  * @param vecinos Vecinos más cercanos
  * @return Valoración predicha
  */
-double PredictionFunctions::prediccionMedia(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos) {
+double PredictionFunctions::prediccionMedia(const Data& datos, int usuario, int item, const std::vector<std::pair<int, double>>& vecinos, std::stringstream& output) {
   double numerador = 0.0;
   double denominador = 0.0;
   double media_usuario = 0.0;
+
+  output << "Predicción para el usuario " << usuario << " e ítem " << item << ":\n";
 
   int numero_valoraciones = 0;
   for (int i = 0; i < (int)datos.getUser(usuario).size(); ++i) {
@@ -60,12 +68,16 @@ double PredictionFunctions::prediccionMedia(const Data& datos, int usuario, int 
     }
   }
 
+  output << "Media del usuario: " << media_usuario / numero_valoraciones << "\n";
+
   media_usuario /= numero_valoraciones;
 
   for (const auto& vecino : vecinos) {
     int usuario_vecino = vecino.first;
     double similitud = vecino.second;
     double media_vecino = 0.0;
+
+    output << "Vecino: " << usuario_vecino << " - Similitud: " << similitud << "\n";
 
     int numero_valoraciones_vecino = 0;
     for (int i = 0; i < (int)datos.getUser(usuario_vecino).size(); ++i) {
@@ -77,6 +89,8 @@ double PredictionFunctions::prediccionMedia(const Data& datos, int usuario, int 
 
     media_vecino /= numero_valoraciones_vecino;
 
+    output << "Media del vecino: " << media_vecino << "\n";
+
     if (datos.getValoration(usuario_vecino,item) != datos.getMinVal() - 1.0) { // Ignorar puntuaciones no conocidas (min_val - 1.0)
       numerador += similitud * (datos.getValoration(usuario_vecino,item) - media_vecino);
       denominador += std::abs(similitud);
@@ -84,6 +98,8 @@ double PredictionFunctions::prediccionMedia(const Data& datos, int usuario, int 
   }
 
   if (denominador == 0.0) return 0.0;
+
+  output << "Predicción Final: " << media_usuario + numerador / denominador << "\n\n";
 
   return media_usuario + numerador / denominador;
 }
