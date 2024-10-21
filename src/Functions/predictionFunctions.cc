@@ -29,10 +29,9 @@ double PredictionFunctions::prediccionSimple(const Data& datos, int usuario, int
   for (const auto& vecino : vecinos) {
     int usuario_vecino = vecino.first;
     double similitud = vecino.second;
-    
-    output << "Vecino: " << usuario_vecino << " - Similitud: " << similitud << "\n";
 
     if (datos.getValoration(usuario_vecino,item) != datos.getMinVal() - 1.0) { // Ignorar puntuaciones no conocidas (min_val - 1.0)
+      output << "Vecino: " << usuario_vecino << " - Similitud: " << similitud << " - Valoración: " << datos.getValoration(usuario_vecino,item) << "\n";
       numerador += similitud * datos.getValoration(usuario_vecino,item);
       denominador += std::abs(similitud);
     }
